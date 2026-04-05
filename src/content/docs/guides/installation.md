@@ -11,18 +11,48 @@ odio started as a personal setup in 2020 — a Raspberry Pi wired to a stereo am
 
 The full journey that led to odio is documented on [Medium](https://mathieu-requillart.medium.com/my-ultimate-guide-to-the-raspberry-pi-audio-server-i-wanted-introduction-650020d135e1).
 
+## Compatible hardware
+
+| Hardware | Architecture | Install method | Tested on |
+|---|---|---|---|
+| Raspberry Pi B, B+ | armv6l | Flash, curl | Raspberry Pi OS Lite (Trixie) |
+| Raspberry Pi Zero W | armv6l | Flash, curl | — |
+| Raspberry Pi 2 | armv7 | Flash, curl | — |
+| Raspberry Pi 3B+ | armv7 / arm64 | Flash, curl | Raspberry Pi OS Lite (Trixie) |
+| Raspberry Pi 4, 5 | arm64 | Flash, curl | — |
+| Raspberry Pi Zero 2 W | arm64 | Flash, curl | — |
+| Desktop | x86-64 | curl | Debian 13 Gnome |
+| NAS | x86-64 | curl | OpenMediaVault 8 |
+
+> odio is still in beta — stable for daily use, but expect rough edges.
+
 ## Getting started
 
 Two paths, same result:
 
-- **Flash an image** — use [Raspberry Pi Imager](https://www.raspberrypi.com/software/) with a custom repository URL. Configure hostname, SSH & WiFi, then flash. Your Pi boots ready.
+- **Flash an image** — use [Raspberry Pi Imager](https://www.raspberrypi.com/software/):
 
-![Raspberry Pi Imager showing odio images available for arm64 and armhf architectures](../../../assets/rpi-imager.png)
+  1. Open Imager → **Options App** → **Content Repository** → **Use custom URL**
+  2. Enter: `https://beta.odio.love/odio.rpi-imager-manifest`
+  3. Select **odio** (available in armhf 32-bit and arm64 64-bit)
+  4. Configure hostname, SSH (& WiFi if needed) in Imager settings, then flash
+
+  > Ethernet is recommended over WiFi for reliable audio streaming.
+
+  Your Pi boots ready.
+
+  ![Raspberry Pi Imager showing odio images available for arm64 and armhf architectures](../../../assets/rpi-imager.png)
 - **Run the installer** — on an existing Debian 13 (trixie) or Ubuntu system:
 
   ```bash
   curl -fsSL https://beta.odio.love/install | bash
   ```
+
+  The installer runs pre-flight checks (OS, architecture, disk space, dependencies), then prompts you to choose a target user (default: `odio`) and which optional components to install (AirPlay, Spotify Connect, Snapcast, DLNA, CD/USB autoplay). It downloads a vendored Ansible archive, runs the playbook, and configures everything. Existing config files are backed up before modification.
+
+  The installer is idempotent, safe to re-run to update or repair.
+
+  For non-interactive installs (CI, automation), all prompts can be bypassed via environment variables — see the [installer documentation](https://github.com/b0bbywan/odios/tree/main/installer).
 
   <details>
   <summary>Example installer output</summary>
