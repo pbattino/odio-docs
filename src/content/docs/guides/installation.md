@@ -89,6 +89,24 @@ Two paths, same result:
 
 Both paths produce the same stack: same packages, same services, same configuration.
 
+## DAC and overclocking
+
+If you use an external DAC (e.g. HiFiBerry DAC+ Standard), edit `/boot/firmware/config.txt`:
+
+Adjust the `dtoverlay` line to match your DAC — see your DAC manufacturer's documentation.
+
+```ini
+# Enable your DAC overlay
+dtoverlay=hifiberry-dacplus-std
+
+# Disable the onboard audio
+#dtparam=audio=on
+
+# Overclock (useful on older armhf boards like Pi B+ at 700MHz)
+arm_boost=1
+arm_freq=800
+```
+
 ## What you get
 
 Once installed, your odio node is controllable from:
