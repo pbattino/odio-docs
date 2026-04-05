@@ -19,7 +19,7 @@ export default defineConfig({
 				{
 					label: 'Getting Started',
 					items: [
-						{ label: 'Introduction', slug: 'guides/introduction' },
+						{ label: 'Installation', slug: 'guides/installation' },
 						{ label: 'How it works', slug: 'guides/how-it-works' },
 					],
 				},

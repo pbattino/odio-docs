@@ -1,6 +1,6 @@
 ---
-title: Introduction
-description: What odio is and how to get started.
+title: Installation
+description: Install odio on a Raspberry Pi or any Debian-based system.
 ---
 
 odio turns a Raspberry Pi (or any Debian-based system) into a complete audio streamer: Bluetooth speaker, AirPlay 2, Spotify Connect, UPnP/DLNA, multi-room, CD player, USB playback — all running in your user session on standard Debian-based systems.
