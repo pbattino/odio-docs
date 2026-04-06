@@ -24,6 +24,36 @@ sudo apt install snapserver
 
 > **Note:** Snapserver >= 0.31 is required for AddStream/RemoveStream support. On Debian 12, install from [GitHub releases](https://github.com/snapcast/snapcast/releases).
 
+### Running as a user service
+
+Like the rest of the odio stack, Snapserver can run in your user session. Disable the system service and create a user unit:
+
+```bash
+sudo systemctl disable --now snapserver.service
+```
+
+`~/.config/systemd/user/snapserver.service`:
+
+```ini
+[Unit]
+Description=Snapcast server
+Documentation=man:snapserver(1)
+Wants=network-online.target avahi-daemon.service
+After=network-online.target time-sync.target avahi-daemon.service
+
+[Service]
+EnvironmentFile=-/etc/default/snapserver
+ExecStart=/usr/bin/snapserver --logging.sink=system --server.datadir="${HOME}" $SNAPSERVER_OPTS
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
+```
+
+```bash
+systemctl --user enable --now snapserver.service
+```
+
 Install [Snapweb](https://github.com/snapcast/snapweb) for the web UI:
 
 ```bash

@@ -52,7 +52,7 @@ audio_output {
 Restart MPD on the NAS:
 
 ```bash
-systemctl restart mpd.service
+systemctl --user restart mpd.service
 ```
 
 ### Browsing
