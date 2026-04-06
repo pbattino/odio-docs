@@ -50,6 +50,8 @@ export default defineConfig({
 					label: 'API',
 					items: [
 						{ label: 'Overview', slug: 'api/overview' },
+						{ label: 'Installation', slug: 'api/installation' },
+						{ label: 'Configuration', slug: 'api/configuration' },
 						{ label: 'MPRIS', slug: 'api/mpris' },
 						{ label: 'PulseAudio', slug: 'api/pulseaudio' },
 						{ label: 'Systemd', slug: 'api/systemd' },

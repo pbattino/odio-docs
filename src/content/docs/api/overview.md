@@ -5,7 +5,7 @@ description: A single REST API to control your entire audio stack.
 
 [go-odio-api](https://github.com/b0bbywan/go-odio-api) bridges audio components — MPRIS players, PulseAudio/PipeWire, Bluetooth, systemd services, and power management — into a single REST API with real-time SSE events.
 
-go-odio-api is part of the [odio project](https://beta.odio.love) but is a standalone project — it runs on any Linux system with a D-Bus user session, independently of the odio distribution. Written in Go, no dependencies beyond D-Bus. Cross-compiled binaries, deb/rpm packages, and [multi-arch Docker images](https://github.com/b0bbywan/go-odio-api/pkgs/container/go-odio-api) (`ghcr.io/b0bbywan/go-odio-api`) are available on [GitHub releases](https://github.com/b0bbywan/go-odio-api/releases), and via the [odio apt repository](https://github.com/b0bbywan/odio-apt-repo).
+go-odio-api is part of the [odio project](https://odio.love) but is a standalone project — it runs on any Linux system with a D-Bus user session, independently of the odio distribution. Written in Go, no dependencies beyond D-Bus. Installed and configured automatically by the [odio installer](/guides/installation/). For standalone use, see [Installation](/api/installation/).
 
 ## Backends
 
@@ -40,9 +40,7 @@ GET /events
 
 ## Configuration
 
-The odio installer generates `~/.config/odio-api/config.yaml`. You can edit it freely, but note that installer updates will overwrite it.
-
-Each backend has its own config block — see the individual backend pages for details.
+See [Configuration](/api/configuration/) for the full reference (`bind`, `port`, backends, etc.).
 
 ## Embedded web UI
 

@@ -1,0 +1,91 @@
+---
+title: Installation
+description: Install go-odio-api from APT, packages, Docker, or source.
+---
+
+go-odio-api runs on any Linux system with a D-Bus user session. Written in Go, no dependencies beyond D-Bus. Cross-compiled binaries, deb/rpm packages, and multi-arch Docker images are available.
+
+## Platform support
+
+| Architecture | Package | Tested on |
+|---|---|---|
+| amd64 | deb, rpm, Docker | Fedora 43 Gnome, Debian 13 KDE |
+| arm64 | deb, rpm, Docker | Raspberry Pi 3/4/5 (64-bit) |
+| armv7hf | deb, rpm, Docker | Raspberry Pi 2/3 (32-bit) |
+| armhf (ARMv6) | deb, rpm | Raspberry Pi B / B+ / Zero |
+
+## APT repository (Debian / Raspberry Pi OS)
+
+```bash
+curl -fsSL https://apt.odio.love/key.gpg | sudo gpg --dearmor -o /usr/share/keyrings/odio.gpg
+echo "deb [signed-by=/usr/share/keyrings/odio.gpg] https://apt.odio.love stable main" | sudo tee /etc/apt/sources.list.d/odio.list
+sudo apt update
+sudo apt install odio-api
+```
+
+## Packages (deb / rpm)
+
+Pre-built packages for all architectures are available as artifacts on each [build workflow run](https://github.com/b0bbywan/go-odio-api/actions/workflows/build.yml).
+
+```bash
+# Debian/Ubuntu/Raspberry Pi OS
+sudo dpkg -i odio-api_<version>_<arch>.deb
+
+# Fedora/RHEL
+sudo rpm -i odio-api-<version>.<arch>.rpm
+```
+
+## Docker
+
+A pre-built multi-arch image is available on GHCR (amd64, arm64, arm/v7):
+
+```
+ghcr.io/b0bbywan/go-odio-api:latest
+```
+
+> **Note:** Docker support is available but has not been tested in production. `bind` must be set to `all` in `config.yaml` for remote access through the bridge network. See [Configuration](/api/configuration/) for details.
+
+## From source
+
+```bash
+git clone https://github.com/b0bbywan/go-odio-api.git
+cd go-odio-api
+task build    # builds CSS + Go binary with version from git
+./bin/odio-api
+```
+
+Requires Go 1.24+ and [Task](https://taskfile.dev).
+
+## systemd user service
+
+The deb/rpm packages install the service automatically. If you installed from source or Docker, create `~/.config/systemd/user/odio-api.service`:
+
+```ini
+[Unit]
+Description=Dbus api for Odio
+Documentation=https://github.com/b0bbywan/go-odio-api
+Wants=sound.target
+After=sound.target
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+ExecStart=/usr/bin/odio-api
+Restart=always
+RestartSec=12
+TimeoutSec=30
+
+[Install]
+WantedBy=default.target
+```
+
+```bash
+systemctl --user daemon-reload
+systemctl --user enable --now odio-api.service
+```
+
+**Headless systems:** enable lingering so the user session survives without an active login:
+
+```bash
+sudo loginctl enable-linger <username>
+```
