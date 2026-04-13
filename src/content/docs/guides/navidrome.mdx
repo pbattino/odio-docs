@@ -5,9 +5,15 @@ description: Self-hosted music streaming with Navidrome and jukebox mode.
 
 import { Aside } from '@astrojs/starlight/components';
 
-<Aside type="caution">This documentation is a work in progress.</Aside>
-
 [Navidrome](https://www.navidrome.org/) is a self-hosted music server and streamer. It provides a web-based interface for browsing and playing your music library from any browser or Subsonic-compatible app.
+
+## Via a client machine on PulseAudio TCP
+
+The simplest path doesn't need any Navidrome-side configuration at all. Navidrome streams audio to the browser or Subsonic client on your laptop/desktop as usual, and that machine is routed to the odio node via [PulseAudio TCP](/guides/network-audio/). The audio plays locally from the client's perspective, but it lands on the odio node's HiFiBerry instead of the client's speakers.
+
+This assumes a Linux client running PulseAudio, or PipeWire with `pipewire-pulse`, since that's what lets the machine target a remote PulseAudio sink. The client also needs to be on the same local network as the odio node, PulseAudio TCP is not meant to cross the internet (unencrypted, LAN-only).
+
+This is the [Desktop & Laptop use case](/guides/use-case-desktop/) applied to Navidrome, nothing Navidrome-specific, any application on a machine routed to an odio node behaves the same way.
 
 ## Jukebox mode
 
