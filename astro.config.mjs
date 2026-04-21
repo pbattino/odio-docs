@@ -13,6 +13,7 @@ export default defineConfig({
 					alt: 'odio',
 				},
 				favicon: '/favicon.svg',
+				lastUpdated: true,
 				customCss: ['./src/styles/custom.css'],
 				components: {
 					SocialIcons: './src/components/SocialIcons.astro',
@@ -101,9 +102,10 @@ export default defineConfig({
 				{
 					label: 'Community',
 					items: [
-						{ label: 'Get involved', slug: 'guides/community' },
-						{ label: 'Empowerment', slug: 'guides/empowerment' },
-						{ label: 'Feature requests', slug: 'guides/feature-requests' },
+						{ label: 'Get involved', slug: 'community/get-involved' },
+						{ label: 'Activity', slug: 'community/activity' },
+						{ label: 'Feature requests', slug: 'community/feature-requests' },
+						{ label: 'Empowerment', slug: 'community/empowerment' },
 					],
 				},
 			],

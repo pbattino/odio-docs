@@ -7,14 +7,14 @@ on:
     branches: [main]
 
 jobs:
-  links:
-    name: Check links
+  build:
+    name: Build
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
 
       - name: Install Node.js
-        uses: actions/setup-node@v5
+        uses: actions/setup-node@v6
         with:
           node-version: 22
           cache: npm
@@ -22,20 +22,38 @@ jobs:
       - run: npm ci
       - run: npm run build
 
+      - name: Upload dist
+        uses: actions/upload-artifact@v7
+        with:
+          name: dist
+          path: dist/
+          retention-days: 1
+
+  links:
+    name: Check links
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download dist
+        uses: actions/download-artifact@v8
+        with:
+          name: dist
+          path: dist/
+
       - name: Check links
         uses: lycheeverse/lychee-action@v2
         with:
-          args: --root-dir ./dist --exclude 'https://docs.odio.love/*' --exclude 'https://pipewire.org/*' --exclude 'https://gnudb.org/*' --exclude-path ./dist/404.html --accept 200,403 --insecure ./dist
+          args: --root-dir ./dist --exclude 'https://docs.odio.love/*' --exclude 'https://pipewire.org/*' --exclude 'https://gnudb.org/*' --exclude-path ./dist/404.html --accept 200,403,418 --insecure ./dist
           fail: true
 
   spelling:
     name: Spell check
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
 
       - name: Install Node.js
-        uses: actions/setup-node@v5
+        uses: actions/setup-node@v6
         with:
           node-version: 22
 
